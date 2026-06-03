@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agro Forte, Futuro Sustentável</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f9f4;
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1e5631, #4c9a2a);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            font-weight: 300;
+        }
+
+        /* Navegação por abas */
+        .nav-abas {
+            background-color: #ffffff;
+            border-bottom: 3px solid #4c9a2a;
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-abas button {
+            background: none;
+            border: none;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #2c3e50;
+            border-bottom: 4px solid transparent;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-abas button:hover {
+            background-color: #f0f0f0;
+            color: #1e5631;
+        }
+
+        .nav-abas button.ativo {
+            border-bottom-color: #4c9a2a;
+            color: #1e5631;
+            background-color: #f0f9f0;
+        }
+
+        /* Área do Gráfico Animado */
+        #canvas-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            background-color: #e8f5e9;
+            padding: 20px 0;
+        }
+
+        canvas {
+            display: block;
+            background-color: #dcefff;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Abas de conteúdo */
+        .aba-conteudo {
+            display: none;
+        }
+
+        .aba-conteudo.ativa {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .conteudo-secao {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border-left: 5px solid #4c9a2a;
+        }
+
+        .conteudo-secao h2 {
+            color: #1e5631;
+            margin-bottom: 15px;
+            font-size: 1.8rem;
+        }
+
+        .conteudo-secao h3 {
+            color: #4c9a2a;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .conteudo-secao p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .lista-pontos {
+            list-style: none;
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+
+        .lista-pontos li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .lista-pontos li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4c9a2a;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .destaque-box {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4c9a2a;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+
+        .destaque-box strong {
+            color: #1e5631;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            text-align: center;
+            padding: 25px 20px;
+            margin-top: 60px;
+            font-size: 1rem;
+            border-top: 4px solid #4c9a2a;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        footer .destaque {
+            color: #a3e280;
+            font-weight: bold;
+        }
+
+        /* Grid para cards informativos */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #e8f5e9 0%, #f0f9f0 100%);
+            border: 2px solid #4c9a2a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .card h4 {
+            color: #1e5631;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .card p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Agro Forte, Futuro Sustentável</h1>
+        <p>O equilíbrio perfeito entre a produção de alimentos e a preservação do meio ambiente</p>
+    </header>
+
+    <!-- Navegação por abas -->
+    <nav class="nav-abas">
+        <button class="aba-btn ativo" data-aba="inicio">Início</button>
+        <button class="aba-btn" data-aba="sobre">Sobre</button>
+        <button class="aba-btn" data-aba="tecnologia">Tecnologia</button>
+        <button class="aba-btn" data-aba="contato">Contato</button>
+    </nav>
+
+    <!-- ABA: INÍCIO -->
+    <div id="inicio" class="aba-conteudo ativa">
+        <!-- Área onde o gráfico renderiza obrigatoriamente -->
+        <div id="canvas-container">
+            <canvas id="graficoAgro" width="800" height="400"></canvas>
+        </div>
+
+        <main>
+            <section class="conteudo-secao">
+                <h2>Tecnologia e Natureza Lado a Lado</h2>
+                <p>O agronegócio moderno entende que a terra é seu maior patrimônio. Através de técnicas de plantio direto, rotação de culturas e uso de energias renováveis, é possível alimentar o planeta enquanto protegemos nossos biomas, águas e florestas.</p>
+            </section>
+
+            <section class="conteudo-secao">
+                <h2>Interação com o Gráfico</h2>
+                <p>A animação interativa acima representa esse ecossistema. <strong>Passe o mouse horizontalmente sobre a tela do gráfico</strong> para controlar a velocidade do vento que move as turbinas eólicas e balança a vegetação nativa.</p>
+            </section>
+        </main>
+    </div>
+
+    <!-- ABA: SOBRE -->
+    <div id="sobre" class="aba-conteudo">
+        <main>
+            <section class="conteudo-secao">
+                <h2>Sobre o Projeto Agro Forte</h2>
+                <p>O projeto <strong>"Agro Forte, Futuro Sustentável"</strong> é uma iniciativa que busca demonstrar como a tecnologia moderna pode conviver harmoniosamente com a preservação da natureza no setor agrícola.</p>
+
+                <h3>Nossa Missão</h3>
+                <p>Promover a conscientização sobre a importância da agricultura sustentável e mostrar que é possível produzir alimentos de qualidade sem comprometer o meio ambiente e os recursos naturais para as futuras gerações.</p>
+
+                <div class="destaque-box">
+                    <strong>Visão:</strong> Um agronegócio que alimenta o mundo com responsabilidade ambiental, preservando biodiversidade e garantindo a sustentabilidade do planeta.
+                </div>
+
+                <h3>O Conceito do Projeto</h3>
+                <p>A animação interativa apresentada no início ilustra um ecossistema agrícola moderno onde:</p>
+                <ul class="lista-pontos">
+                    <li>Turbinas eólicas geram energia limpa para as operações agrícolas</li>
+                    <li>Vegetação nativa é preservada e respeitada</li>
+                    <li>O solo permanece fértil graças a técnicas sustentáveis</li>
+                    <li>A harmonia entre produção e conservação é mantida</li>
+                </ul>
+
+                <h3>Importância da Sustentabilidade</h3>
+                <p>A agricultura sustentável não é apenas uma tendência, mas uma necessidade urgente. Com a população mundial crescendo e os recursos naturais se tornando mais escassos, precisamos de soluções inteligentes que permitam:</p>
+                <ul class="lista-pontos">
+                    <li>Aumentar a produtividade agrícola</li>
+                    <li>Reduzir o impacto ambiental</li>
+                    <li>Proteger a biodiversidade</li>
+                    <li>Garantir a segurança alimentar global</li>
+                    <li>Preservar recursos hídricos</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- ABA: TECNOLOGIA -->
+    <div id="tecnologia" class="aba-conteudo">
+        <main>
+            <section class="conteudo-secao">
+                <h2>Tecnologia e Natureza em Harmonia</h2>
+                <p>A revolução tecnológica no campo não precisa destruir a natureza. Pelo contrário, as inovações modernas permitem que produzamos mais respeitando o meio ambiente.</p>
+
+                <h3>Tecnologias Sustentáveis na Agricultura</h3>
+                <div class="grid-cards">
+                    <div class="card">
+                        <h4>🌾 Plantio Direto</h4>
+                        <p>Reduz a erosão do solo, mantém a umidade e aumenta a biodiversidade microbiana do terreno.</p>
+                    </div>
+                    <div class="card">
+                        <h4>♻️ Rotação de Culturas</h4>
+                        <p>Equilibra os nutrientes do solo naturalmente, reduzindo a necessidade de fertilizantes químicos.</p>
+                    </div>
+                    <div class="card">
+                        <h4>⚡ Energia Renovável</h4>
+                        <p>Painéis solares e turbinas eólicas substituem fontes fósseis, reduzindo emissões de carbono.</p>
+                    </div>
+                </div>
+
+                <h3>Precisão Agrícola com IA</h3>
+                <p>A inteligência artificial e sensores IoT permitem:</p>
+                <ul class="lista-pontos">
+                    <li>Monitoramento em tempo real da saúde das plantas</li>
+                    <li>Uso otimizado de água e fertilizantes</li>
+                    <li>Previsão de pragas e doenças</li>
+                    <li>Redução de desperdícios de até 40%</li>
+                    <li>Análise de dados para melhor produtividade</li>
+                </ul>
+
+                <h3>Drones e Mapeamento</h3>
+                <p>Drones equipados com câmeras multiespectrais mapeiam as lavouras, identificando áreas com problemas antes que se tornem críticos. Isso permite intervenções precisas e economiza recursos.</p>
+
+                <div class="destaque-box">
+                    <strong>Resultado:</strong> Com essas tecnologias, é possível aumentar a produção em até 30% enquanto reduz o uso de água em 25% e de agroquímicos em 20%.
+                </div>
+
+                <h3>Sistema de Irrigação Inteligente</h3>
+                <p>Sensores de umidade do solo conectados a sistemas automatizados garantem que as plantas recebam exatamente a quantidade de água necessária, no momento certo, evitando desperdícios.</p>
+
+                <h3>Blockchain para Rastreabilidade</h3>
+                <p>A tecnologia blockchain permite rastrear cada produto do campo até a mesa do consumidor, garantindo transparência sobre as práticas sustentáveis utilizadas e a origem dos alimentos.</p>
+
+                <h3>Biodiversidade e Conservação</h3>
+                <ul class="lista-pontos">
+                    <li>Mantém corredores ecológicos para fauna nativa</li>
+                    <li>Protege nascentes de água e cursos de rios</li>
+                    <li>Preserva áreas de mata ciliar</li>
+                    <li>Promove reflorestamento nativo</li>
+                    <li>Combate a erosão do solo</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <!-- ABA: CONTATO -->
+    <div id="contato" class="aba-conteudo">
+        <main>
+            <section class="conteudo-secao">
+                <h2>Contato e Informações</h2>
+                
+                <h3>Desenvolvedor</h3>
+                <p><strong>Carlos Natalício Junior</strong></p>
+                
+                <h3>Instituição</h3>
+                <p><strong>Colégio Estadual José Luiz Gori</strong></p>
+
+                <h3>Sobre Este Projeto</h3>
+                <p>Este projeto foi desenvolvido como parte de uma iniciativa educacional para demonstrar a importância da sustentabilidade na agricultura moderna e como a tecnologia pode ser um aliado na preservação do meio ambiente.</p>
+
+                <div class="destaque-box">
+                    <strong>Objetivo:</strong> Educar e inspirar a próxima geração sobre a possibilidade de um agronegócio responsável e sustentável que garanta alimento para todos sem comprometer o planeta.
+                </div>
+
+                <h3>Tecnologias Utilizadas Neste Site</h3>
+                <ul class="lista-pontos">
+                    <li>HTML5 para estrutura semântica</li>
+                    <li>CSS3 com gradientes e animações</li>
+                    <li>Canvas API para gráficos interativos</li>
+                    <li>JavaScript vanilla (sem dependências externas)</li>
+                </ul>
+
+                <h3>Saiba Mais</h3>
+                <p>Para mais informações sobre agricultura sustentável, visite:</p>
+                <ul class="lista-pontos">
+                    <li>Ministério da Agricultura, Pecuária e Abastecimento (MAPA)</li>
+                    <li>Organização das Nações Unidas para Alimentação (FAO)</li>
+                    <li>Empresa Brasileira de Pesquisa Agropecuária (Embrapa)</li>
+                </ul>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <p>Desenvolvido por: <span class="destaque">Carlos Natalício Junior</span></p>
+        <p>Instituição: <span class="destaque">Colégio Estadual José Luiz Gori</span></p>
+        <p>&copy; 2026 - Projeto Agro Sustentável</p>
+    </footer>
+
+    <!-- Sistema gráfico nativo independente de internet externa -->
+    <script>
+        const canvas = document.getElementById('graficoAgro');
+        const ctx = canvas.getContext('2d');
+
+        let anguloVento = 0;
+        let crescimento = 0;
+        let mouseX = 400;
+        let animacaoAtiva = true;
+
+        // Captura o movimento do mouse na tela do gráfico
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+        });
+
+        function renderizar() {
+            if (!animacaoAtiva) {
+                requestAnimationFrame(renderizar);
+                return;
+            }
+
+            // Limpa e desenha o céu
+            ctx.fillStyle = "#dcf0ff";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Calcula a física do vento baseado no mouse
+            let velocidadeVento = (mouseX / canvas.width) * 0.13 + 0.02;
+            anguloVento += velocidadeVento;
+
+            if (crescimento < 1) crescimento += 0.01;
+
+            // Montanhas de fundo
+            ctx.fillStyle = "#a0d28c";
+            ctx.beginPath(); ctx.arc(200, 450, 300, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(600, 430, 350, 0, Math.PI * 2); ctx.fill();
+
+            // Solo agrícola
+            ctx.fillStyle = "#78b464";
+            ctx.fillRect(0, 320, canvas.width, 80);
+
+            // Linhas de plantações tecnológicas
+            ctx.strokeStyle = "#64a050";
+            ctx.lineWidth = 3;
+            for (let i = 0; i < canvas.width; i += 40) {
+                ctx.beginPath();
+                ctx.moveTo(i, 350);
+                ctx.lineTo(i + 15, 380);
+                ctx.stroke();
+            }
+
+            // Desenha as duas torres eólicas
+            desenharEolica(250, 220, 110, anguloVento);
+            desenharEolica(550, 250, 90, anguloVento * 1.2);
+
+            // Desenha as três árvores nativas preservadas
+            desenharArvore(120, 320, 60 * crescimento);
+            desenharArvore(400, 330, 50 * crescimento);
+            desenharArvore(680, 320, 70 * crescimento);
+
+            // Painel informativo superior
+            desenharPainel();
+
+            // Mantém o ciclo da animação ativo
+            requestAnimationFrame(renderizar);
+        }
+
+        function desenharEolica(x, y, altura, rotacao) {
+            ctx.save();
+            ctx.translate(x, y);
+            
+            // Poste
+            ctx.strokeStyle = "#f5f5f5";
+            ctx.lineWidth = 4;
+            ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, altura); ctx.stroke();
+
+            // Miolo da hélice
+            ctx.fillStyle = "#ffffff";
+            ctx.beginPath(); ctx.arc(0, 0, 5, 0, Math.PI * 2); ctx.fill();
+
+            // Hélices giratórias
+            ctx.rotate(rotacao);
+            ctx.strokeStyle = "#ffffff";
+            ctx.lineWidth = 3;
+            for (let i = 0; i < 3; i++) {
+                ctx.rotate((Math.PI * 2) / 3);
+                ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(0, -altura * 0.45); ctx.stroke();
+            }
+            ctx.restore();
+        }
+
+        function desenharArvore(x, y, tamanho) {
+            if (tamanho <= 0) return;
+            ctx.save();
+            
+            // Tronco
+            ctx.fillStyle = "#6e462d";
+            ctx.fillRect(x - tamanho * 0.1, y - tamanho * 0.6, tamanho * 0.2, tamanho * 0.6);
+
+            // Balanço das folhas baseado no vento
+            let balanco = Math.sin(anguloVento * 0.5) * (mouseX * 0.01);
+
+            // Folhagens da copa
+            ctx.fillStyle = "#2e7d32";
+            ctx.beginPath(); ctx.arc(x + balanco, y - tamanho * 0.7, tamanho * 0.4, 0, Math.PI * 2); ctx.fill();
+            ctx.fillStyle = "#43a047";
+            ctx.beginPath(); ctx.arc(x - tamanho * 0.2 + balanco, y - tamanho * 0.6, tamanho * 0.3, 0, Math.PI * 2); ctx.fill();
+            ctx.beginPath(); ctx.arc(x + tamanho * 0.2 + balanco, y - tamanho * 0.6, tamanho * 0.3, 0, Math.PI * 2); ctx.fill();
+            
+            ctx.restore();
+        }
+
+        function desenharPainel() {
+            ctx.fillStyle = "rgba(30, 86, 49, 0.75)";
+            ctx.fillRect(15, 15, 240, 50);
+
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "12px sans-serif";
+            ctx.textAlign = "left";
+            ctx.fillText("Mova o mouse horizontalmente", 25, 34);
+            ctx.fillText("para controlar a força do vento.", 25, 50);
+        }
+
+        // Inicializa o processo do gráfico
+        renderizar();
+
+        // Sistema de navegação por abas
+        document.querySelectorAll('.aba-btn').forEach(botao => {
+            botao.addEventListener('click', function() {
+                const abaAlvo = this.getAttribute('data-aba');
+                
+                // Remove classe ativa de todos os botões e abas
+                document.querySelectorAll('.aba-btn').forEach(btn => btn.classList.remove('ativo'));
+                document.querySelectorAll('.aba-conteudo').forEach(aba => aba.classList.remove('ativa'));
+                
+                // Adiciona classe ativa ao botão e aba clicados
+                this.classList.add('ativo');
+                document.getElementById(abaAlvo).classList.add('ativa');
+
+                // Controla a animação do canvas
+                animacaoAtiva = (abaAlvo === 'inicio');
+
+                // Scroll para o topo
+                window.scrollTo(0, 0);
+            });
+        });
+    </script>
+</body>
+</html>
